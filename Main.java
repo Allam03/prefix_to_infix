@@ -28,30 +28,30 @@ public class Main {
 
         for (int i = tokens.length - 1; i >= 0; i--) {
             if (operator.contains(tokens[i])) {
-                int a = evaluationStack.pop();
-                int b = evaluationStack.pop();
+                int operand1 = evaluationStack.pop();
+                int operand2 = evaluationStack.pop();
                 String infix1 = infixStack.pop();
                 String infix2 = infixStack.pop();
 
                 switch (tokens[i]) {
                     case "+":
-                        evaluationStack.push(a + b);
+                        evaluationStack.push(operand1 + operand2);
                         infixStack.push("(" + infix1 + " + " + infix2 + ")");
                         break;
 
                     case "-":
-                        evaluationStack.push(a - b);
+                        evaluationStack.push(operand1 - operand2);
                         infixStack.push("(" + infix1 + " - " + infix2 + ")");
                         break;
 
                     case "*":
-                        evaluationStack.push(a * b);
+                        evaluationStack.push(operand1 * operand2);
                         infixStack.push("(" + infix1 + " * " + infix2 + ")");
                         break;
 
                     case "/":
                         try {
-                            evaluationStack.push(a / b);
+                            evaluationStack.push(operand1 / operand2);
                         } catch (ArithmeticException e) {
                             System.out.println(e);
                         }

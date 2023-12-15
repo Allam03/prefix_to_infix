@@ -4,6 +4,7 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Stack;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -24,6 +25,10 @@ public class XML {
     }
 
     static String toString(File file) throws SAXException, IOException, ParserConfigurationException {
+        ArrayList<String> keys = new ArrayList<>();
+        keys.add("atom");
+        keys.add("operator");
+
         StringBuilder result = new StringBuilder();
         Stack<Node> stack = new Stack<>();
         stack.push(getRoot(file));
@@ -35,7 +40,7 @@ public class XML {
                 Element element = (Element) node;
                 String nodeName = element.getNodeName();
 
-                if ("atom".equals(nodeName) || "operator".equals(nodeName)) {
+                if (keys.contains(nodeName)) {
                     result.append(" " + element.getAttribute("value"));
                 }
 

@@ -15,7 +15,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class XML {
-    public static Node getRoot(File file) throws SAXException, IOException, ParserConfigurationException{
+    public static Node getRoot(File file) throws SAXException, IOException, ParserConfigurationException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(file);
@@ -31,7 +31,12 @@ public class XML {
 
         StringBuilder result = new StringBuilder();
         Stack<Node> stack = new Stack<>();
-        stack.push(getRoot(file));
+        try {
+            stack.push(getRoot(file));
+        } catch (SAXException e) {
+            System.out.println("XML file is invalid");
+            System.exit(0);
+        }
 
         while (!stack.isEmpty()) {
             Node node = stack.pop();
@@ -47,8 +52,7 @@ public class XML {
                 NodeList nodeList = element.getChildNodes();
                 if (nodeList != null && nodeList.getLength() > 0) {
                     for (int i = nodeList.getLength() - 1; i >= 0; i--) {
-                        Node childNode = nodeList.item(i);
-                        stack.push(childNode);
+                        stack.push(nodeList.item(i));
                     }
                 }
             }
